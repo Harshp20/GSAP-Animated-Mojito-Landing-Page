@@ -1,0 +1,17 @@
+import "./App.css";
+import Hero from "./components/Hero";
+import Navbar from "./components/Navbar";
+
+function App() {
+  return (
+    <main>
+      <Navbar />
+      <Hero />
+      <section className="margin-4 h-screen w-full border-2 border-cyan-300">
+        <h1 className="text-9xl text-cyan-300">Next Section</h1>
+      </section>
+    </main>
+  );
+}
+
+export default App;
