@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 gsap.registerPlugin(SplitText);
 
@@ -9,6 +9,10 @@ const Hero = () => {
   const heroLeftLeaf = useRef<HTMLDivElement>(null);
   const heroRightLeaf = useRef<HTMLDivElement>(null);
   const animatedVideoRef = useRef<HTMLVideoElement>(null);
+
+  const [navbarHeight, setNavbarHeight] = useState<number | undefined>(
+    undefined,
+  );
 
   useGSAP(() => {
     // Leaves animations
@@ -91,83 +95,116 @@ const Hero = () => {
 
     if (!animatedVideoRef.current) throw new Error("Video not found.");
     animatedVideoRef.current.onloadedmetadata = () => {
+      const isMobile = window.innerWidth < 480;
       gsap.to(animatedVideoRef.current, {
         ease: "none",
         currentTime: animatedVideoRef.current?.duration,
+        scale: 0.9,
         scrollTrigger: {
-          trigger: "#hero",
+          trigger: "#video-wrapper",
           start: "center 50%",
-          end: "bottom top",
+          end: isMobile ? "bottom 30%" : "bottom 50%",
           scrub: true,
-          pin: true,
+          // pin: true,
+          // markers: true,
         },
       });
     };
   });
 
+  useEffect(() => {
+    const navbarHeight = document.querySelector("nav")?.offsetHeight;
+    setNavbarHeight(navbarHeight);
+  }, []);
+
   return (
-    <section
-      id="hero"
-      className="relative grid h-screen place-items-end text-white"
-    >
-      <div ref={heroLeftLeaf} className="absolute bottom-0 left-0 z-1 w-[25%]">
-        <img
-          src="/images/hero-left-leaf.png"
-          alt="hero-left-leaf"
-          className="h-full w-full object-cover"
-        />
-      </div>
-      <div ref={heroRightLeaf} className="bottom absolute right-0 z-1 w-[25%]">
-        <img
-          src="/images/hero-right-leaf.png"
-          alt="hero-left-leaf"
-          className="h-full w-full object-cover"
-        />
-      </div>
-
-      {/* Heading */}
-      <h1 className="z-3 w-full text-center font-serif text-9xl">Mojito</h1>
-
-      <div
-        id="hero--text--container"
-        className="z-3 flex h-[80%] w-full justify-between leading-[2] md:px-8 md:py-4"
+    <>
+      <section
+        id="hero"
+        className={
+          "relative flex min-h-screen flex-col items-center justify-start gap-8 px-6 text-white md:px-4"
+        }
+        style={{ paddingTop: (navbarHeight ?? 80) + 32 }}
       >
-        <div id="hero--text" className="max-w-[20ch] self-start">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-          cupiditate delectus minima eligendi iusto aliquid officia quo saepe
-          distinctio repudiandae.
+        <div
+          ref={heroLeftLeaf}
+          className="absolute bottom-0 left-0 z-1 w-[35%] md:w-[25%]"
+        >
+          <img
+            src="/images/hero-left-leaf.png"
+            alt="hero-left-leaf"
+            className="h-full w-full object-cover"
+          />
         </div>
-        <div id="hero--text" className="self-center md:w-[60ch]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi ipsam
-          eveniet enim cum? A, quam modi vero animi nobis cupiditate praesentium
-          quia suscipit aspernatur, veritatis tempore, accusamus sapiente
-          voluptatem perferendis facilis quidem similique ad. Qui aliquid
-          aliquam, officia molestias vitae deleniti culpa corporis sint
-          distinctio minus, voluptatem excepturi, dolor sed vel. Exercitationem,
-          amet maiores a sequi explicabo architecto molestiae quas laboriosam
-          modi iure, accusantium nisi fugit assumenda, voluptatibus dicta.
-          Possimus exercitationem minima ratione cum minus, quasi est placeat
-          distinctio doloremque quis explicabo hic delectus, harum odio.
-          Dolores, maxime laboriosam debitis aspernatur incidunt magni
-          obcaecati! Veritatis optio voluptas nostrum consectetur et?
+        <div
+          ref={heroRightLeaf}
+          className="absolute right-0 z-1 w-[35%] md:w-[25%]"
+        >
+          <img
+            src="/images/hero-right-leaf.png"
+            alt="hero-left-leaf"
+            className="h-full w-full object-cover"
+          />
         </div>
-        <div id="hero--text" className="max-w-[20ch] self-end">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi
-          earum ea voluptatibus repellat molestiae atque debitis ullam quas,
-          quibusdam necessitatibus.
+
+        {/* Heading */}
+        <h1 className="z-3 w-full text-center font-serif text-[clamp(4rem,20vw,8rem)] tracking-wider">
+          Mojito
+        </h1>
+
+        <div
+          id="hero--text--container"
+          className="z-3 flex w-full flex-col items-center justify-center gap-8 text-[clamp(.75rem,4vw,1.2rem)] leading-[2] md:flex-row md:px-8 md:py-4"
+        >
+          <div
+            id="hero--text"
+            className="hidden max-w-[20ch] lg:self-start xl:inline"
+          >
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
+            cupiditate delectus minima eligendi iusto aliquid officia quo saepe
+            distinctio repudiandae.
+          </div>
+          <div id="hero--text" className="md:w-[60ch] md:self-center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi ipsam
+            eveniet enim cum? A, quam modi vero animi nobis cupiditate
+            praesentium quia suscipit aspernatur, veritatis tempore, accusamus
+            sapiente voluptatem perferendis facilis quidem similique ad. Qui
+            aliquid aliquam, officia molestias vitae deleniti culpa corporis
+            sint distinctio minus, voluptatem excepturi, dolor sed vel.
+            Exercitationem, amet maiores a sequi explicabo architecto molestiae
+            quas laboriosam modi iure, accusantium nisi fugit assumenda,
+            voluptatibus dicta. Possimus exercitationem minima ratione cum
+            minus, quasi est placeat distinctio doloremque quis explicabo hic
+            delectus, harum odio. Dolores, maxime laboriosam debitis aspernatur
+            incidunt magni obcaecati! Veritatis optio voluptas nostrum
+            consectetur et?
+          </div>
+          <div
+            id="hero--text"
+            className="hidden max-w-[20ch] md:self-end xl:inline"
+          >
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi
+            earum ea voluptatibus repellat molestiae atque debitis ullam quas,
+            quibusdam necessitatibus.
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Animated Video Elem */}
-      <video
-        ref={animatedVideoRef}
-        src="/videos/input.mp4"
-        playsInline
-        muted
-        preload="auto"
-        className="absolute bottom-0 h-[70%] w-full"
-      />
-    </section>
+      <div
+        id="video-wrapper"
+        className="absolute bottom-0 left-0 flex h-full w-full items-end justify-center"
+      >
+        <video
+          ref={animatedVideoRef}
+          src="/videos/input.mp4"
+          playsInline
+          muted
+          preload="auto"
+          className="h-[30%] w-full origin-bottom object-cover md:h-auto md:w-[70%]"
+        />
+      </div>
+    </>
   );
 };
 
