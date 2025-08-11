@@ -5,7 +5,9 @@ import { useAnimateHeading } from "../hooks/useAnimateHeading";
 
 const Pricing = () => {
   const headingRef = useAnimateHeading({
-    start: "top 70%",
+    scrollTriggerVars: {
+      start: "top 70%",
+    },
   });
 
   useGSAP(() => {
