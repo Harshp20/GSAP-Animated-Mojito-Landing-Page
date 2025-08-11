@@ -1,6 +1,9 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/all";
 import { useRef } from "react";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const Navbar = () => {
   const navbarRef = useRef<HTMLElement>(null);
