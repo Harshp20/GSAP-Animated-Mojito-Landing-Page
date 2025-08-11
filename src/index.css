@@ -1,7 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 @import "tailwindcss";
 
 body {
   min-height: 100vh;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background-color: black;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .heading {
+    font-size: clamp(4rem, 20vw, 15rem);
+    @apply w-full text-center tracking-wider text-amber-50 font-cinzel font-semibold;
+  }
+
+  .heading-2 {
+    font-size: clamp(4rem, 10vw, 15rem);
+    @apply w-full text-center tracking-wider text-amber-50 font-cinzel font-semibold;
+  }
+}
+
+@theme {
+  --font-cinzel: "Cinzel", serif;
+}
+
+@layer base {
+  body {
+    background-color: black;
+  }
 }

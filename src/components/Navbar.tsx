@@ -1,9 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollToPlugin, ScrollTrigger } from "gsap/all";
 import { useRef } from "react";
-
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const Navbar = () => {
   const navbarRef = useRef<HTMLElement>(null);
@@ -35,7 +32,7 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className="fixed top-0 z-20 hidden w-full items-center bg-black p-6 text-white transition-all duration-200 md:flex"
+      className="fixed top-0 z-20 hidden w-full items-center bg-transparent p-6 text-white transition-all duration-200 md:flex"
     >
       <div className="logo text-3x px-10 font-serif">Logo</div>
       <ul className="ml-auto flex w-[50%] items-center justify-evenly">
